@@ -241,9 +241,9 @@ def redis_factory():
 
 def setup():
     db = redis_factory()
-    verify_tags(db)
-    if 1:
-        return
+    # verify_tags(db)
+    #if 1:
+    #    return
     users = db.smembers('users')
     for user in users:
         compute_events(db, user)

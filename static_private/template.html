@@ -52,6 +52,7 @@
     <script type="text/javascript" src="/static/mustache.min.js"></script>
 
     <script type="text/javascript">
+    var maxInterval = 1800;
     function enc(data) {
 	var data_enc = msgpack.pack(data);
 	var data_out = new Uint8Array(data_enc.length);
@@ -126,7 +127,7 @@
 			var event_start_time = Number(target.attr('data-start-time'));
 			var event_stop_time = Number(target.attr('data-stop-time'));
 			var start_time = event_start_time;
-			var stop_time = Math.min(start_time + 240, event_stop_time);
+			var stop_time = Math.min(start_time + maxInterval, event_stop_time);
   	                ws.send(enc(['slice', target.attr('data-user'), event_start_time, start_time, stop_time, event_stop_time]))
 		    });
 		}
@@ -207,7 +208,7 @@
                   ind = images.length - 1;
 	      var imageuri = IMAGE_CACHE.get(user + ':' + images[ind]);
 	      if (_.isUndefined(imageuri)) {
-	          getThumbnail(user, images[ind]);
+	          // getThumbnail(user, images[ind]);
 	      } else {
                   setThumbnail(imageuri);
               }
@@ -220,7 +221,7 @@
       function setupSlider(user, event_start_time, start_time, stop_time, event_stop_time) {
           $('#sliderParent').html("<div id='slider'></div>");
           var element = $('#slider');
-          var max_time = 240;
+          var max_time = maxInterval;
 	  currentUser = user;
           var onslide = _.debounce(function(event, ui) {
               if (ui.values[1] <= ui.values[0]) return;
