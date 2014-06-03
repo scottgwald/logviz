@@ -2,13 +2,13 @@ import redis
 import msgpack
 
 def redis_factory():
-    return redis.StrictRedis()
+    return redis.StrictRedis('localhost', 6379)
 
 def setup():
+    print "Doing setup"
     db = redis_factory()
-    if 1:
-        return
     users = db.smembers('users')
+    print users
     for user in users:
         compute_events(db, user)
 
@@ -30,4 +30,5 @@ def compute_events(db, user, max_event_delay=10.):
     return events
 
 if __name__ == '__main__':
-	setup()
+    print "Doing main"
+    setup()
